@@ -1,0 +1,9 @@
+This is the folder for "FIFA" related projects, which generally pertain to the league I created and am running for friends for the PS3 "FIFA" games.
+
+There are two projects currently desired:
+
+1. (Complete)  - A scheduling algorithm that takes as input a file, the number of players and the players' names which outputs a list of matches per round for the desired number of rounds (currently 2).  The algorithm should ensure that everyone plays everyone else once per loop (round robin) and that the schedule is created randomly (the first round should have a different order, except by chance, than the first).  Updated 11/11.
+
+2. (Researching) - A rating algorithm which takes as input game score results and uses bayesian probability along with maximum liklihood estimation to appropriately estimate the rating value of each player in the league.  To be used for predictions, hopefully applicable to outside leagues such as the Premier League.
+
+-Dan Cashman
