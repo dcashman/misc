@@ -1,0 +1,5 @@
+CSE250A  FALL 2011 - Artificial Intelligence
+
+All hw problems were done in matlab on school computers and left unsaved, with the exception of hw3, which is presented here.  HW3 is a very simple perl script which calculates unigram and bigram probabilities from a corpus of words (provided).   A lambda is also calculated determining the optimal weights to use for combining the two models.
+
+-Dan Cashman
