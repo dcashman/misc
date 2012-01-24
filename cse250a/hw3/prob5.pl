@@ -1,0 +1,182 @@
+#!/usr/bin/perl
+#use strict;
+use Math::Trig;
+
+#########################################################################################################################################################
+#Dan Cashman
+#CSE250A problem 5 - hw3
+#10/18/11
+########################################################################################################################################################
+
+#pseudo code
+
+#vocab.txt into array
+#  store each word (one per line) in an array (chomped)
+#
+
+#unigram.txt into a (sister) array
+#  more efficient data structures, yes, but I'm tired and this works quickly
+
+#bigram.txt into a data structure
+#  hash of hashes
+#  hash is the same size as the first two, but now each entry contains 
+
+#create max distribution in another array (or make it an array of arrays... just sayin) for unigrams
+#just take count/total_count 
+
+my @vocab;              #array for holding vocab words
+my %vocab_hash;              #hash for holding vocab, to make life easy
+my @unigram_count;      #array for holding counts of vocab words
+my @uni_ML;             #array holding the ML values of each vocab word
+my @init_bigram;
+my @da_big_flat_array;        
+my @da_big_flat_ML_array;
+my $i=0;
+my $total_word_count=0;
+
+open (VOCAB, "vocab.txt") or die "Could not open vocab.txt";
+
+while($vocab[$i]=<VOCAB>){
+    chomp($vocab[$i]);
+    $vocab_hash{$vocab[$i]}=$i;     #TEST THIS
+    $i++;
+}
+
+open (UNI, "unigram.txt") or die "Could not open unigram.txt";
+$i=0;
+while($unigram_count[$i]=<UNI>){
+    $total_word_count+=$unigram_count[$i];
+    $i++;
+}
+
+open (BIGRAM, "bigram.txt") or die "Could not open bigram.txt";
+
+for($i=0;$i<2500;$i++){
+    $da_big_flat_array[$i]=0;   #make the big flat array 0-ed out.  500 words get 500 buckets
+}
+for($i=0;$i<2500;$i++){
+    $da_big_flat_ML_array[$i]=0;   #make the big flat ML array 0-ed out.  500 words get 500 buckets
+}
+$i=0;
+while($init_bigram[$i]=<BIGRAM>){
+    $init_bigram[$i]=~/^(\d+)\s+(\d+)\s+(\d+)$/;
+    my $given_index=$1-1;  #index in file starts at 1
+    my $q_index=$2-1;    #same as above
+    my $cond_count=$3;
+    my $index=$given_index*500+$q_index;
+    $da_big_flat_array[$index]=$cond_count;
+    
+    $i++;
+}
+
+close VOCAB;
+close UNI;
+close BIGRAM;
+
+#calculate overall unigram ML
+for($i=0;$i<500;$i++){
+    $uni_ML[$i]=$unigram_count[$i]/$total_word_count;
+}
+
+#print out table of words starting with letter "T" along with their numerical unigram probabilities
+print("Part A: \n\n");
+for($i=0;$i<500;$i++){
+    if($vocab[$i]=~/^T/){
+	print("$vocab[$i]\t\tNumerical Unigram Probability:\t$uni_ML[$i]\n");
+    }
+}
+
+#separate solution to part a:
+print("\n\n\n\nPart B:\n\n");
+#iterate through each 'row' of the big array and divide count/count of parent, record in corresponding spot in 
+for($i=0;$i<500;$i++){
+  my $total_parent_word_count=$unigram_count[$i];
+  my $j=0;
+  for($j=0;$j<500;$j++){
+     my $index=$i*500+$j;
+      $da_big_flat_ML_array[$index]=$da_big_flat_array[$index]/$total_parent_word_count;
+  }
+}
+
+#print out a table of the ten most likely words to follow the word "THE" along w/their probabilities.
+#get index
+$i=$vocab_hash{"THE"};
+my %bigram_print_hash;
+for(my $j=0;$j<500;$j++){
+  my $index=$i*500+$j;
+  $bigram_print_hash{$da_big_flat_ML_array[$index]}=$vocab[$j];  #put in hash values of bigram ML with their name so we can print them after sorting
+}
+my @tmp=(sort {$b<=>$a} keys %bigram_print_hash);
+for($i=0;$i<10;$i++){
+ print("$bigram_print_hash{$tmp[$i]}\t\tNumerical Bigram Probability Following The:\t$tmp[$i]\n");
+}
+
+#part c: consider the sentence "The stock market fell by three hundred points last wekk."  compute and compare the log-likelihoods of this sentence under the unigram and bigram models
+#= log P(the) + log P(stock) + log P(market) ...
+
+print("\n\n\n\nPart C:\n\n");
+
+my $uni_log=log($uni_ML[$vocab_hash{THE}])+log($uni_ML[$vocab_hash{STOCK}])+log($uni_ML[$vocab_hash{MARKET}])+log($uni_ML[$vocab_hash{FELL}])+log($uni_ML[$vocab_hash{BY}])+log($uni_ML[$vocab_hash{THREE}])+log($uni_ML[$vocab_hash{HUNDRED}])+log($uni_ML[$vocab_hash{POINTS}])+log($uni_ML[$vocab_hash{LAST}])+log($uni_ML[$vocab_hash{WEEK}]);
+
+my $bigram_log=log($da_big_flat_ML_array[500*$vocab_hash{'<s>'}+$vocab_hash{THE}])+log($da_big_flat_ML_array[500*$vocab_hash{THE}+$vocab_hash{STOCK}])+log($da_big_flat_ML_array[500*$vocab_hash{STOCK}+$vocab_hash{MARKET}])+log($da_big_flat_ML_array[500*$vocab_hash{MARKET}+$vocab_hash{FELL}])+log($da_big_flat_ML_array[500*$vocab_hash{FELL}+$vocab_hash{BY}])+log($da_big_flat_ML_array[500*$vocab_hash{BY}+$vocab_hash{THREE}])+log($da_big_flat_ML_array[500*$vocab_hash{THREE}+$vocab_hash{HUNDRED}])+log($da_big_flat_ML_array[500*$vocab_hash{HUNDRED}+$vocab_hash{POINTS}])+log($da_big_flat_ML_array[500*$vocab_hash{POINTS}+$vocab_hash{LAST}])+log($da_big_flat_ML_array[500*$vocab_hash{LAST}+$vocab_hash{WEEK}]);
+
+print("Log-likelihood for Unigram:\t$uni_log\n");
+print("Log-likelihood for Bigram:\t$bigram_log\n");
+
+print("\n\nAnalysis:  The bigram log-likelihood yields the higher likelihood.  This is probably due to the use of phrases which are highly correlated.  \"stock market\" is much more likely to be said as part of a newspaper relative to other phrases,than either stock or market are to be relative to other individual words.\n");
+
+#part d: basically part c but with a sentence containing words not in the corpus:
+
+print("\n\n\n\nPart D:\n\n");
+$uni_log=log($uni_ML[$vocab_hash{THE}])+log($uni_ML[$vocab_hash{SIXTEEN}])+log($uni_ML[$vocab_hash{OFFICIALS}])+log($uni_ML[$vocab_hash{SOLD}])+log($uni_ML[$vocab_hash{FIRE}])+log($uni_ML[$vocab_hash{INSURANCE}]);
+
+
+#$bigram_log=log($da_big_flat_ML_array[500*$vocab_hash{'<s>'}+$vocab_hash{THE}])+log($da_big_flat_ML_array[500*$vocab_hash{THE}+$vocab_hash{SIXTEEN}])+log($da_big_flat_ML_array[500*$vocab_hash{SIXTEEN}+$vocab_hash{OFFICIALS}])+log($da_big_flat_ML_array[500*$vocab_hash{OFFICIALS}+$vocab_hash{SOLD}])+log($da_big_flat_ML_array[500*$vocab_hash{SOLD}+$vocab_hash{FIRE}])+log($da_big_flat_ML_array[500*$vocab_hash{FIRE}+$vocab_hash{INSURANCE}]);
+
+
+print("Log-likelihood for Unigram:\tERROR!\n");
+print("Log-likelihood for Bigram:\t$bigram_log\n");
+print("\nAnalysis:  Was forced to comment-out the lines for the bigram on part d since the word combination(s) which did not exist resulted in probabilities of 0, thus forcing a computation of a log of 0, which is impossible.  This represents a huge hole in this approach, since clearly this is not an impossible sentence.  It also illustrates a limitation of n-gram approaches and neccesitates the utilization of lower n-grams to counteract these effects\n");
+
+#print out the combos that aren't observed in the corpus
+print("\nBigrams not observed in corpus:\n");
+if($da_big_flat_ML_array[500*$vocab_hash{THE}+$vocab_hash{SIXTEEN}]==0){
+    print("THE SIXTEEN\n");
+}
+if($da_big_flat_ML_array[500*$vocab_hash{SIXTEEN}+$vocab_hash{OFFICIALS}]==0){
+    print("SIXTEEN OFFICIALS\n");
+}
+if($da_big_flat_ML_array[500*$vocab_hash{OFFICIALS}+$vocab_hash{SOLD}]==0){
+    print("OFFICIALS SOLD\n");
+}
+if($da_big_flat_ML_array[500*$vocab_hash{SOLD}+$vocab_hash{FIRE}]==0){
+    print("SOLD FIRE\n");
+}
+if($da_big_flat_ML_array[500*$vocab_hash{FIRE}+$vocab_hash{INSURANCE}]==0){
+    print("FIRE INSURANCE\n");
+}
+
+#part e: compute using mixed terms
+print("\n\n\n\nPart E:\n\n");
+my %lambda_hash;
+my %lambda_other_hash;
+my $lambda=0;
+my $n_lambda=1-lambda;
+for($lambda=.01;$lambda<1;$lambda+=.01){
+    $n_lambda=1-$lambda;
+my $mix_log=
+log($lambda*($uni_ML[$vocab_hash{THE}])+$n_lambda*($da_big_flat_ML_array[500*$vocab_hash{'<s>'}+$vocab_hash{THE}]))
++log($lambda*($uni_ML[$vocab_hash{SIXTEEN}])+$n_lambda*($da_big_flat_ML_array[500*$vocab_hash{THE}+$vocab_hash{SIXTEEN}]))
++log($lambda*($uni_ML[$vocab_hash{OFFICIALS}])+$n_lambda*($da_big_flat_ML_array[500*$vocab_hash{SIXTEEN}+$vocab_hash{OFFICIALS}]))
++log($lambda*($uni_ML[$vocab_hash{SOLD}])+$n_lambda*($da_big_flat_ML_array[500*$vocab_hash{OFFICIALS}+$vocab_hash{SOLD}]))
++log($lambda*($uni_ML[$vocab_hash{FIRE}])+$n_lambda*($da_big_flat_ML_array[500*$vocab_hash{SOLD}+$vocab_hash{FIRE}]))
++log($lambda*($uni_ML[$vocab_hash{INSURANCE}])+$n_lambda*($da_big_flat_ML_array[500*$vocab_hash{FIRE}+$vocab_hash{INSURANCE}]));
+
+    $lambda_hash{$mix_log}=$lambda;
+    $lambda_other_hash{$lambda}=$mix_log;
+}
+my @tmp=(sort {$b<=>$a} keys %lambda_hash);
+print("Best lambda value: $lambda_hash{$tmp[0]}\n");
+
+
+#sanity checks

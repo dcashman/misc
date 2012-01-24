@@ -1,0 +1,89 @@
+Part A: 
+
+THE		Numerical Unigram Probability:	0.0471519414082268
+TO		Numerical Unigram Probability:	0.0204644226058494
+THAT		Numerical Unigram Probability:	0.0074518015218408
+TWO		Numerical Unigram Probability:	0.00445908799575016
+THREE		Numerical Unigram Probability:	0.00333978165650147
+THEY		Numerical Unigram Probability:	0.00221063002001616
+THOUSAND		Numerical Unigram Probability:	0.0021308280765765
+TWENTY		Numerical Unigram Probability:	0.00207662390595205
+THIS		Numerical Unigram Probability:	0.00201942334051645
+THEIR		Numerical Unigram Probability:	0.00177868442026108
+THIRTY		Numerical Unigram Probability:	0.00146904064953229
+THAN		Numerical Unigram Probability:	0.0013844077838461
+THERE		Numerical Unigram Probability:	0.00105793528144329
+TIME		Numerical Unigram Probability:	0.000893427091220018
+THEM		Numerical Unigram Probability:	0.000751532509183705
+TEN		Numerical Unigram Probability:	0.000710402404082161
+T.		Numerical Unigram Probability:	0.00058488403695247
+THOSE		Numerical Unigram Probability:	0.000550737366288328
+THROUGH		Numerical Unigram Probability:	0.000544035226057686
+TODAY		Numerical Unigram Probability:	0.000473075704856628
+TOLD		Numerical Unigram Probability:	0.000449129006733278
+THEN		Numerical Unigram Probability:	0.000439687305532448
+TAKE		Numerical Unigram Probability:	0.000410090262908084
+THESE		Numerical Unigram Probability:	0.000395034907754946
+TUESDAY		Numerical Unigram Probability:	0.000379209051078943
+THINK		Numerical Unigram Probability:	0.000372714823957647
+THIRD		Numerical Unigram Probability:	0.000359224932216046
+THURSDAY		Numerical Unigram Probability:	0.000357855151730951
+TRADING		Numerical Unigram Probability:	0.000350064525221976
+TWELVE		Numerical Unigram Probability:	0.000339522107559909
+TAX		Numerical Unigram Probability:	0.000329138682275576
+TRADE		Numerical Unigram Probability:	0.000325163872832221
+TOO		Numerical Unigram Probability:	0.000298392002458365
+TOOK		Numerical Unigram Probability:	0.000246242502561551
+TERM		Numerical Unigram Probability:	0.000248248252557582
+TIMES		Numerical Unigram Probability:	0.000244713729698722
+TOP		Numerical Unigram Probability:	0.000237828136724541
+THIRTEEN		Numerical Unigram Probability:	0.000222332494986909
+THAT'S		Numerical Unigram Probability:	0.000219690775479941
+
+
+
+
+Part B:
+
+<UNK>		Numerical Bigram Probability Following The:	0.615019810005512
+U.		Numerical Bigram Probability Following The:	0.0133724994326103
+FIRST		Numerical Bigram Probability Following The:	0.0117202606750316
+COMPANY		Numerical Bigram Probability Following The:	0.0116587880556366
+NEW		Numerical Bigram Probability Following The:	0.00945148007651655
+UNITED		Numerical Bigram Probability Following The:	0.0086723081412314
+GOVERNMENT		Numerical Bigram Probability Following The:	0.0068034886359952
+NINETEEN		Numerical Bigram Probability Following The:	0.00665071491100088
+SAME		Numerical Bigram Probability Following The:	0.00628706675744902
+TWO		Numerical Bigram Probability Following The:	0.00616074960282722
+
+
+
+
+Part C:
+
+Log-likelihood for Unigram:	-65.0962406383314
+Log-likelihood for Bigram:	-42.028138479874
+
+
+Analysis:  The bigram log-likelihood yields the higher likelihood.  This is probably due to the use of phrases which are highly correlated.  "stock market" is much more likely to be said as part of a newspaper relative to other phrases,than either stock or market are to be relative to other individual words.
+
+
+
+
+Part D:
+
+Log-likelihood for Unigram:	ERROR!
+Log-likelihood for Bigram:	-42.028138479874
+
+Analysis:  Was forced to comment-out the lines for the bigram on part d since the word combination(s) which did not exist resulted in probabilities of 0, thus forcing a computation of a log of 0, which is impossible.  This represents a huge hole in this approach, since clearly this is not an impossible sentence.  It also illustrates a limitation of n-gram approaches and neccesitates the utilization of lower n-grams to counteract these effects
+
+Bigrams not observed in corpus:
+SIXTEEN OFFICIALS
+SOLD FIRE
+
+
+
+
+Part E:
+
+Best lambda value: 0.65
