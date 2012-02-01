@@ -1,0 +1,151 @@
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "level.h"
+#include "common.h"
+#include "util.h"
+
+// array of direction names. must be consistent with the order of the enum
+// in level.h
+char *direction_names[] = {
+    "north",
+    "south",
+    "east",
+    "west",
+    "up",
+    "down"
+};
+
+
+// loads a level from a config file and returns a pointer to the starting room
+room_t *load_level(char *filename) {
+    char buf[2048];
+    char *whitespace = " \t\n";
+    FILE *levelfile = fopen(filename,"r");
+
+    if(levelfile == NULL) {
+        printf("Could not open %s\n", filename);
+        exit(1);
+    }
+
+    skip_characters(levelfile, whitespace);
+    
+    // get the total number of rooms
+    fgets(buf,256,levelfile);
+    num_rooms = atoi(buf);
+
+    skip_characters(levelfile, whitespace);
+    
+    // allocate an array for all of the room structs to be stored
+	// store the pointer in the global room_array variable
+	/*** YOUR CODE HERE ***/
+    /* DAC - I would like to change the following lines to ones using malloc, but for
+     *   now, doing it using arrays is preferable  */
+    /* DAC - QUESTION! - how does the linking work for this?  I am assuming currently
+     *   that I already have access to globals num_rooms and room_array */
+    const int room_array_size= num_rooms;  //create constant to use for array
+    room_t room_array_allocated[room_array_size];  //initialize array
+    room_array=room_array_allocated;      //room_array now has space
+    
+    // Initialize room_array
+	/*** YOUR CODE HERE ***/
+    //DAC - Make sure all elements are NULL except ROOM_ID and mob.  Also don't forget substructs
+    room_t *p = room_array;  // initialize pointer to go through room_array
+    for(int i=0;i<room_array_size;i++){
+      p->room_id=i;             //assign room ID number
+      p->description=NULL;      //description = NULL
+      for(int j=0;j<NUM_DIRECTIONS;j++){      //DAC - NUM_DIRECTIONS from typedef enum ... directions in level.h
+        p->exits[j].dest=NULL;         //pay attention to ->, [], . precedence, should work
+        p->exits[j].locked=false;      
+      }
+      p->puzzle.description_fxn=NULL;
+      p->puzzle.interact_fxn=NULL;
+      p++;  //go to next room_t
+    } 
+      
+    skip_characters(levelfile, whitespace);
+
+	// one line at a time, read in room description strings and set 
+	// the appropriate field in each string's corresponding room struct
+    while(fgets(buf, 256, levelfile), buf[0] != '\n') {
+		/*** YOUR CODE HERE ***/
+      /*DAC - pseudo code because I'm tired and don't want to code it yet
+       *    - while beginning of line is number (characters are digits), load into room_id
+       *    - skip spaces
+       *    - take substring, from right after last space to right before the \0 (use strlen(s))
+       *    - replace the \n at the end with \0
+       *    - assign substring to appropriate room_t.room_id
+       */
+      char *p1, *p2, rmNum[10];  // p iterates through buffer, rmNum holds room number (no more than 9 digits long)
+      int rmNumInt;      //int used as an index for the room array (must be withing array bounds!)
+      p1=buf;
+      p2=rmNum;
+      while(isdigit(*p1)){
+        *p2++=*p1++;          //if character is a digit, copy it to rmNum[] and move over one spot on rmNum[] and buf[]
+	//should have count so that you make sure you don't go over rmNum[] limit
+      }
+      *p2='\0';
+      rmNumInt = atoi(rmNum);  //copy room name from file into actual integer.
+      while(isspace(*p1++))    //iterate through the spaces
+        ;
+      room_array[rmNumInt].description = strdup(p1);
+      *(room_array[rmNumInt].description + (strlen(room_array[rmNumInt].description)-2))='\0';  //cut the string by one character (the \n )
+    }
+
+    skip_characters(levelfile, whitespace);
+
+	// hook up rooms so that exits point to each other appropriately.
+	// exits should also be set to locked or unlocked as necessary
+    while(fgets(buf, 256, levelfile), buf[0] != '\n' && !feof(levelfile)) {
+        char *words[32];
+        tokenizer(buf, words, " \t\n");
+        
+		assert(!strcmp("can-go", words[0]) || !strcmp("cant-go", words[0]));
+        
+		direction dir;
+        switch(words[1][0]) {
+            case 'n':
+                dir = NORTH;
+                break;
+            case 's':
+                dir = SOUTH;
+                break;
+            case 'e':
+                dir = EAST;
+                break;
+            case 'w':
+                dir = WEST;
+                break;
+            case 'u':
+                dir = UP;
+                break;
+            case 'd':
+                dir = DOWN;
+                break;
+            default:
+                printf("%s isn't a direction\n", words[1]);
+                assert(false);
+        }
+		
+		/*** YOUR CODE HERE ***/
+        /* DAC - pseudo code again, cause I have work to do =/ :
+         * understand tokenizer perfectly
+         * goal: assign each FROM(words[2]) room the value of TO(words[3]) room in correct exits[] spot
+         * assign FROMroom.exits[dir].destination=TOroom
+         * if words[0] is can-go leave FROMroom.exits[dir].locked alone
+         * if words[0] is cant-go, lock it.
+         * switch FROM room and TO room
+         * switch direction using flip_direction
+         * repeat update for new FROM room and TO rooms, but leave locked alone
+         */
+
+        room_array[atoi(words[2])].exits[dir].dest=&room_array[atoi(words[3])];                  //set exit direction in first room to the second room
+        room_array[atoi(words[3])].exits[flip_direction(dir)].dest=&room_array[atoi(words[2])];  //set exit direction in second room to opposite dir to the first room
+        if(strcmp("can-go", words[0])){    //if strcmp returns a value !=0  (if they are NOT equal) lock one direction, otherwise nothing
+          room_array[words[2]].exits[dir].locked=true;
+        }
+    }
+
+    return room_array; // equivalent to a pointer to the first element of the array
+}
+

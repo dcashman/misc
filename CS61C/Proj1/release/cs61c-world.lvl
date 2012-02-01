@@ -1,0 +1,55 @@
+26
+
+0 You are in a cold, concrete-floored room. There are no windows and almost no light. The only thing you can make out is the faint outline of a door to the south.
+1 A dim hallway stretches out before you. You see a doorway leading to stairs. 
+2 You are in a stairwell. Strange drawings cover the walls. 
+3 This area was once a lobby, but now is in ruins. There are double doors leading outside and stairs leading deeper into the building.
+4 You are outside a towering fortress. Its gray-green exterior exudes an air of malignancy. The entrance is to the west.
+5 You are standing in the concrete basin of a large, circular fountain. Tall buildings loom in every direction.
+6 You are outside a large, circular building. Although vines and moss cover its bulk, you can see red bricks poking through here and there. It looks like the building extends underground. An old black-and-white computer terminal stands by the door.
+7 You are inside the circular building. You see a door leading down into an auditorium. There is a terminal on the wall.
+8 You are half-way down the steps of a large auditorium. You are almost certainly underground. Typing echos throughout the room. Another terminal is embedded in the wall.
+9 You are at the bottom of the auditorium in front of a grid of sliding chalkboards. A man is typing at an ancient terminal. There are many parentheses. 
+10 There is a rift blocking the path to the north. Beyond it you can see the structure of an unfinished building.
+11 You are inside a half-constructed building, the amount of dust tells you that it hasn't been worked on in years. Exposed steel rafters crisscross above your head. The rumble of a running generator echos from somewhere in the structure.
+12 You are balancing on a steel rafter. You see a ladder that leads further up into the structure.
+13 You are on a strange metal floor. 
+14 At the top of the building stands a tall man, excitedly playing with a dual-monitor computer and peering through an expensive looking camera aimed down at the building.
+15 You are behind a large beige building. There is a door to the north. Next to it, a cardkey reader blinks at you expectantly.
+16 You are in a small corridor leading directly from the door to an elevator. There is a right-angle in the corridor, and at the turn there are huge shards of what used to be wall-mounted mirrors. Next to the shards are 8 torches.
+17 You are on a new floor of the building. There is a long hallway which used to encircle the entire floor, but now rubble blocks the way to the east.
+18 You are at the end of the hallway, far from the elevators. There are double doors leading to a misty street.
+19 You are outside on a misty street going from east to west. The beige building looms to the south, and to the west you can make out the tall man peering through his camera. To the west is a steep hill, and to the northwest a large green building.
+20 You are outside a building faced with huge green tiles. Many of the tiles have fallen, and the sidewalk surrounding the building is a patchwork of green ceramic shards and gray concrete. There is a large hole in the wall facing the street.
+21 The walls were once white, but are now smudged and torn. There is a door leading to stairs.
+22 There is a heap of tiny stones in this room. Each stone has the word "byte" scratched on it.
+23 You are in a spiraling metal stairwell.
+24 You are near the top of the green building. The ample windows make the spacious room almost blindingly light. The walls are littered with posters consistingly solely of two strange symbols: an X and an O stacked one on top of the other. 
+25 You made it to the top of the building!
+
+can-go south 0 1
+cant-go up 1 2
+cant-go up 2 3
+cant-go east 3 4
+can-go east 4 5
+can-go south 5 6
+cant-go east 6 7
+cant-go down 7 8
+cant-go down 8 9
+can-go north 5 10
+cant-go north 10 11
+cant-go up 11 12
+can-go up 12 13
+cant-go up 13 14
+can-go east 5 15
+cant-go north 15 16
+cant-go up 16 17
+can-go north 17 18
+can-go west 18 19
+can-go west 19 20
+can-go north 20 21
+can-go down 21 22
+cant-go up 21 23
+can-go up 23 24
+cant-go up 24 25
+

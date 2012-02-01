@@ -1,0 +1,12 @@
+5
+
+0 you are in room #0
+1 you are in room #1
+2 you are in room #2
+3 you are in room #3
+4 you are in room #4
+
+can-go east 0 1
+can-go north 1 2
+can-go up 2 3
+cant-go up 3 4
