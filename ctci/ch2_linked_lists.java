@@ -107,11 +107,8 @@ public class ch2{
     }  
 
 
-    /*
-     * 2.5 -  2.4 (above) not fully written due to time
-     *   implement a function which goes through a linked list representing numbers, stored in reverse order and add them
-     *   then do it in reverse order
-     */ 
-
+    /* 
+     * 2.6 - 
+     */
      
             
