@@ -1,0 +1,49 @@
+package dataStructs;
+
+public class StackNode {
+
+    private int data;
+    private StackNode next;
+
+    public StackNode(int data, StackNode next){
+	this.data=data;
+        this.next=next;
+    }
+   
+    public StackNode(int data){
+	this.data=data;
+        this.next=null;
+    }
+ 
+    public StackNode(){
+	this.data=0;
+        this.next=null;
+    }
+
+    public StackNode push(int data){
+        StackNode s = new StackNode(data);
+        s.next=this;
+        this=s;
+        return s;
+    }
+
+    public StackNode pop(){
+        StackNode s = this;
+        this=this.next;
+        s.next=null;
+        return s;
+    }
+
+    public String toString(){
+        StringBuffer sBuff = new StringBuffer();
+        StackNode explorer=this;
+        while(explorer!=null){
+	    sBuff.append(explorer.pop()+", ");
+	}
+        sBuff.append("\n");
+        return new String(sBuff);
+    }
+
+
+}
+    
