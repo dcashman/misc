@@ -9,9 +9,6 @@ public class Stack {
 	top=null;
     }
 
-    public Stack(Node n){
-	top=n;
-    }
 
     public Stack(int data){
         Node n = new Node(data);
@@ -25,30 +22,24 @@ public class Stack {
         return data;
     }
 
-    public Node push(Node n){
-        n.next=top;
-        top=n;
-        return n;
+    public int poll() throws Exception{
+        if(top==null){
+            throw new Exception();
+	}else{
+          return top.data;
+	}
     }
 
-    /*    public Node pop(){   //don't use this function though
-        if(top==null){
-	    return null;
-	}
-        Node s = top;
-        top=top.next;
-        s.next=null;
-        return s;
-	} */
 
-    public int pop(){
+    public int pop() throws Exception{
         if(top==null){
-	    return -1;
+	    throw new Exception();
+	}else{
+            Node s = top;
+            top=top.next;
+            s.next=null;
+            return s.getData();
 	}
-        Node s = top;
-        top=top.next;
-        s.next=null;
-        return s.getData();
     }
 
     public String toString(){
