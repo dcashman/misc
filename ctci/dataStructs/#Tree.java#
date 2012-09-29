@@ -1,0 +1,8 @@
+package dataStructs;
+import java.utils.*;
+
+public class TreeNode{
+
+    private int data;
+    private TreeNode parent;
+    pivate List

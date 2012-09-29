@@ -1,0 +1,6 @@
+#include "test.h"
+
+TEST_STATUS s_l_list_test();
+
+/* DAC TODO: add more tests, which use the above as a driver */
+

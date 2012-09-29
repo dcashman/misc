@@ -1,0 +1,5 @@
+/* header for data structs */
+typedef enum {
+  DS_SUCCESS,
+  DS_FAILURE
+}DS_STATUS;
