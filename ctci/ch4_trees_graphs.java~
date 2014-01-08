@@ -1,8 +1,0 @@
-public class ch4_trees_graphs{
-
-    /*
-     *p1 - implement a function to test whether or not a tree is balanced.  For the sake of this, this means that the heights of the subtrees of a node
-     *   differ by at most one
-     */
-
-    public static int nodeHeight(TreeNode
