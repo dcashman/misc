@@ -16,6 +16,7 @@
 int main(int argc, char* argv[]){
     if (argc != 2) {
         printf("Usage: euler problem_number\n");
+        return -1;
     }
     /* need to use unsigned to prevent integer overflow */
     unsigned int problem_number = atoi(argv[1]) - 1;
