@@ -17,12 +17,16 @@
 int main(int argc, char* argv[]){
     int num_tests = MAX_PROBLEMS;
     int failed_tests = 0;
-    for(int i = 0; i < MAX_PROBLEMS; i++) {
+    for (int i = 0; i < num_tests; i++) {
         if(!euler_test_funcs[i]()) {
             printf("Test %d failed\n", i);
             failed_tests++;
         }
     }
-    printf("Failed %d out of %d tests\n", failed_tests, MAX_PROBLEMS);
+    if (failed_tests == 0) {
+        printf("Tests Passed! %d total tests passed.\n", num_tests);
+    } else {
+        printf("Failed %d out of %d tests\n", failed_tests, num_tests);
+    }
     return 0;
 }

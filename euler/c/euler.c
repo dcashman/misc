@@ -5,7 +5,9 @@
 #include "euler.h"
 
 int (*euler_funcs[MAX_PROBLEMS])() = {
-    problem1 };
+    problem1,
+    problem2
+};
 /* return sum of multiples of 3 and 5 below 1000 */
 int problem1() {
     return problem1_general(1000);
@@ -31,4 +33,14 @@ int problem1_general(int limit) {
         sum -= i;
     }
     return sum;
+}
+
+/*
+ * problem2 - find the sum of the even fibonnoci terms with values up to 4 million
+ */
+int problem2() {
+
+    /* initialize array with fibonnaci values */
+    /* add up the values in a temporary place */
+    return 0;
 }
